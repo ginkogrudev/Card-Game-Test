@@ -33,6 +33,19 @@ public class CardGame : MonoBehaviour
             Hand[i] = go;
         }
 
+        EnemyHand = new GameObject[HandSize];
+        for (int x = 0; x < HandSize;  x++)
+        {
+            CardType = Random.Range(0, 5);
+            CardName = string.Format("Witch {0}", CardType);
+            EnemyCards[x] = CardType ;
+
+            GameObject go = GameObject.Instantiate(CardBack) as GameObject;
+            Vector3 positionEnemy = new Vector3((x * 4) + 1, 11, 0);
+            go.transform.position = positionEnemy;
+
+            EnemyHand[x] = go;
+        }
 
     }
 
