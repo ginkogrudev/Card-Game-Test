@@ -19,6 +19,11 @@ public class CardGame : MonoBehaviour
     public int CardType;
     public string CardName;
 
+    public int MyLife = 5;
+    public int EnemyLife = 5;
+
+    public bool playerHasWon = false;
+
     // Use this for initialization
     void Start()
     {
@@ -27,6 +32,7 @@ public class CardGame : MonoBehaviour
         for (int i = 0; i < HandSize; i++)
         {
             CardType = Random.Range(0,5);
+            CardName = string.Format("Fairy{0}", CardType);
             GameObject go = GameObject.Instantiate(FiaryDeck[CardType]) as GameObject;
             Vector3 positionCard = new Vector3((i * 4)+ 1,1,0);
             go.transform.position = positionCard;
@@ -65,8 +71,117 @@ public class CardGame : MonoBehaviour
                 {
                     Debug.Log(hit.transform.gameObject.name);
                     //TODO Make Logic 
+                    GameObject CardClicked = hit.transform.gameObject;
+
+                    string CardEnemyPlayed = EnemyTurn();
+                    ResolveBattle(CardClicked.name , CardEnemyPlayed);
+                    DrawNewCard(CardClicked);
                 }
             }
         }
+
+        if (MyLife <= 0)
+        {
+            playerHasWon = false;
+            EndGame();
+        }
+
+        if (EnemyLife <= 0)
+        {
+            playerHasWon = true;
+            EndGame();
+        }
+    }
+
+    void EndGame()
+    {
+        if (playerHasWon = true)
+        {
+            Application.LoadLevel("YouWin");
+        }
+        else
+        {
+            Application.LoadLevel("GameOver");
+        }
+    }
+
+    string EnemyTurn()
+    {
+
+        // Plays a random card from hand 
+        int PickACardAtRandom = Random.Range(0, HandSize);
+        GameObject ChosenCard = EnemyHand[PickACardAtRandom];
+        string EnemyCard = ChosenCard.name;
+
+        // Chosen card 
+
+        int NewDraw = Random.Range(0, 5);
+        EnemyHand[PickACardAtRandom] = WitchDeck[NewDraw];
+
+        CardName = string.Format("Witch{0}", NewDraw);
+
+        GameObject go = GameObject.Instantiate(WitchDeck[NewDraw]) as GameObject;
+        go.name = CardName;
+        go.transform.position = ChosenCard.transform.position;
+
+        Destroy(ChosenCard);
+
+        return EnemyCard;
+    }
+
+    void ResolveBattle(string CardClicked , string CardEnemyPlayed)
+    {
+        if (CardClicked == "Fairy0")
+        {
+            EnemyLife--;
+        }
+
+        if (CardClicked == "Fairy1")
+        {
+            EnemyLife--;
+        }
+
+        if (CardClicked == "Fairy2")
+        {
+            EnemyLife--;
+        }
+
+        if (CardClicked == "Fairy5")
+        {
+            MyLife--;
+        }
+
+        if (CardEnemyPlayed == "Witch0")
+        {
+            MyLife--;
+        }
+
+        if (CardEnemyPlayed == "Witch1")
+        {
+            MyLife--;
+        }
+
+        if (CardEnemyPlayed == "Witch2")
+        {
+            MyLife--;
+        }
+
+        if (CardEnemyPlayed == "Witch5")
+        {
+            EnemyLife++;
+        }
+    }
+
+    void DrawNewCard(GameObject oldCard )
+    {
+
+    }
+
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(10, 70, 100, 20), "Witch: " + EnemyLife);
+        GUI.Label(new Rect(10, 230, 100, 20), "Fairy: " + MyLife);
+
     }
 }
