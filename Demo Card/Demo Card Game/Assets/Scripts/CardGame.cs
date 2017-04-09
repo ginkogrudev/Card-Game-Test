@@ -53,5 +53,20 @@ public class CardGame : MonoBehaviour
     void Update()
     {
 
+        // Check for the mouse left click 
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.Log(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.tag == "Card")
+                {
+                    Debug.Log(hit.transform.gameObject.name);
+                    //TODO Make Logic 
+                }
+            }
+        }
     }
 }
