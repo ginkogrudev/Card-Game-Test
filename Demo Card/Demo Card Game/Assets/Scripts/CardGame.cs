@@ -20,7 +20,7 @@ public class CardGame : MonoBehaviour
     public string CardName;
 
     public int MyLife = 5;
-    public int EnemyLife = 5;
+    public int EnemyLife = 5;      
 
     public bool playerHasWon = false;
 
@@ -148,6 +148,16 @@ public class CardGame : MonoBehaviour
             EnemyLife--;
         }
 
+        if (CardClicked == "Fairy3")
+        {
+            EnemyLife--;
+        }
+
+        if (CardClicked == "Fairy4")
+        {
+            EnemyLife--;
+        }
+
         if (CardClicked == "Fairy5")
         {
             MyLife--;
@@ -164,6 +174,16 @@ public class CardGame : MonoBehaviour
         }
 
         if (CardEnemyPlayed == "Witch2")
+        {
+            MyLife--;
+        }
+
+        if (CardEnemyPlayed == "Witch3")
+        {
+            MyLife--;
+        }
+
+        if (CardEnemyPlayed == "Witch4")
         {
             MyLife--;
         }
